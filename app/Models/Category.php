@@ -2,44 +2,35 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasChildren;
+use App\Models\Traits\{HasChildren, Filterd};
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use App\Scoping\Scoper;
 use App\Scoping\Scopes\Category\{CategoryScope};
 
 class Category extends Model
 {
-    use HasChildren;
+    use HasChildren, Filterd;
 
     protected $fillable = [
         "name",
         "parent_id"
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($category) {
-            $category->children()->delete();
-            $category->products()->detach();
-        });
-    }
-
+    /**
+     * Get category's children.
+     *
+     */
     public function children()
     {
         return $this->hasMany(Category::class, "parent_id", "id");
     }
 
+    /**
+     * the product that belongs to category
+     *
+     */
     public function products()
     {
         return $this->belongsToMany(Product::class);
-    }
-
-    public function scopeWithScopes(Builder $builder)
-    {
-        return (new Scoper(request()))->apply($builder, $this->scopes());
     }
 
     protected function scopes()

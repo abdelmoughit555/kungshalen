@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\Imageable;
-use Illuminate\Database\Eloquent\Builder;
-use App\Scoping\Scoper;
+use App\Models\Traits\{Imageable, Filterd};
 use App\Scoping\Scopes\Product\{CategoryScope,CountryScope,PriceScope};
 
 class Product extends Model
 {
-    use Imageable;
+    use Imageable, Filterd;
 
     protected $fillable = [
         "title",
@@ -58,16 +56,6 @@ class Product extends Model
     {
         return $this->belongsToMany(Country::class);
     }
-
-    /**
-     * filter model based on givin params
-     *
-     */
-    public function scopeWithScopes(Builder $builder)
-    {
-        return (new Scoper(request()))->apply($builder, $this->scopes());
-    }
-
      /**
      * group of params to filter with
      *

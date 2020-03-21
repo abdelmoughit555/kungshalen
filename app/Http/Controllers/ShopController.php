@@ -11,8 +11,8 @@ class ShopController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $products = Product::with(['country', 'category'])
-                ->withScopes()
+        $products = Product::withScopes()
+                ->with(['country', 'category'])
                 ->paginate(10);
 
         $countries = Country::withScopes()->get();

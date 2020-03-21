@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Scoping\Scopes\Country\{CategoryScope};
-use Illuminate\Database\Eloquent\Builder;
-use App\Scoping\Scoper;
+use App\Models\Traits\Filterd;
 
 class Country extends Model
 {
+    use Filterd;
 
     protected $fillable = [
         "name"
@@ -26,11 +26,6 @@ class Country extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class);
-    }
-
-    public static function scopeWithScopes(Builder $builder)
-    {
-        return (new Scoper(request()))->apply($builder, self::scopes());
     }
 
     protected static function scopes()
