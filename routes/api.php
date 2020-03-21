@@ -9,5 +9,6 @@ Route::get('/shop', 'ShopController');
 Route::apiResources([
     'products' => 'ProductController',
     'categories' => 'CategoryController',
-    'countries' => 'CountryController'
+    'countries' => 'CountryController',
+    'visitors' => 'VisitorController'
 ]);
