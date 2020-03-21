@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Models\Category;
 
-class CategoryObser
+class CategoryObserver
 {
     /**
      * Handle the category "deleted" event.
