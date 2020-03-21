@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\Imageable;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use App\Scoping\Scoper;
 use App\Scoping\Scopes\Product\{CategoryScope,CountryScope,PriceScope};
@@ -21,38 +20,15 @@ class Product extends Model
         "image",
     ];
 
+    /**
+     * Get Price Attribute and formatted.
+     *
+     * @return integer
+     */
+
     public function getPriceAttribute($value)
     {
         return money_format('%i', $value / 100);
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($product) {
-            $product->image = $product->imageable();
-            $product->slug = Str::slug($product->title, '-');
-        });
-
-        static::created(function ($product) {
-             $product->country()->attach(request()->country);
-             $product->category()->attach(request()->category);
-        });
-
-        static::updating(function ($product) {
-            $product->updateImageable();
-        });
-
-        static::updated(function( $product) {
-            $product->country()->sync(request()->country);
-            $product->category()->sync(request()->category);
-        });
-
-        static::deleting(function ($product) {
-            $product->country()->detach();
-            $product->category()->detach();
-        });
     }
 
     /**
@@ -65,21 +41,38 @@ class Product extends Model
         return 'slug';
     }
 
+    /**
+     * the category that belongs to product
+     *
+     */
     public function category()
     {
         return $this->belongsToMany(Category::class);
     }
 
+    /**
+     * the country that belongs to product
+     *
+     */
     public function country()
     {
         return $this->belongsToMany(Country::class);
     }
 
+    /**
+     * filter model based on givin params
+     *
+     */
     public function scopeWithScopes(Builder $builder)
     {
         return (new Scoper(request()))->apply($builder, $this->scopes());
     }
 
+     /**
+     * group of params to filter with
+     *
+     * @return array
+     */
     protected function scopes()
     {
         return [
