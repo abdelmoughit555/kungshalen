@@ -12,6 +12,6 @@ class Visitor extends Model
 
      public function products()
      {
-          return $this->belongsToMany(Product::class, 'carts')->withPivot('quantity', 'type', 'price');
+          return $this->belongsToMany(Product::class, 'carts')->withPivot('quantity', 'price');
      }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Country;
-use App\Http\Resources\Product\ProductIndexAdminResource;
+use App\Http\Resources\Product\{ProductIndexAdminResource, ProductResource};
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 
@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return new ProductResource(
-            $product->load(['category', 'country'])
+            $product->load(['category', 'country', 'visitor'])
         );
     }
 

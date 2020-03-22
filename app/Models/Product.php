@@ -56,6 +56,16 @@ class Product extends Model
     {
         return $this->belongsToMany(Country::class);
     }
+
+    /**
+     * the country that belongs to product
+     *
+     */
+    public function visitor()
+    {
+        return $this->belongsToMany(Visitor::class, 'carts')->withPivot('quantity', 'price');
+    }
+
      /**
      * group of params to filter with
      *

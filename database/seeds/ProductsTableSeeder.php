@@ -16,13 +16,16 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         Product::query()->delete();
+        Product::unsetEventDispatcher();
 
-        $products = factory(Product::class, 10000)->create();
+        $products = factory(Product::class, 100)->create();
         $faker = Factory::create();
+        $categoryCount = Category::count();
+        $countryCount = Country::count();
 
-        $products->each(function ($product) use ($faker) {
-            $product->category()->attach($faker->numberBetween(1, Category::count()));
-            $product->country()->attach($faker->numberBetween(1, Country::count()));
+        $products->each(function ($product) use ($faker, $categoryCount, $countryCount) {
+            $product->category()->attach($faker->numberBetween(1, $categoryCount));
+            $product->country()->attach($faker->numberBetween(1, $countryCount));
         });
     }
 }

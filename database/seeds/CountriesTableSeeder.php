@@ -15,6 +15,6 @@ class CountriesTableSeeder extends Seeder
     {
         Country::query()->delete();
 
-        factory(Country::class, 200)->create();
+        factory(Country::class, 20)->create();
     }
 }

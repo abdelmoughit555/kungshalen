@@ -15,6 +15,6 @@ class CategoriesTableSeeder extends Seeder
     {
         Category::query()->delete();
 
-        factory(Category::class, 400)->create();
+        factory(Category::class, 40)->create();
     }
 }
