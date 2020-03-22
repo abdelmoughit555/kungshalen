@@ -17,6 +17,14 @@ class CartProductResource extends ProductResource
     {
         return array_merge(parent::toArray($request), [
             'quantity' => $this->pivot->quantity,
+            'price' => $this->getPrice()
         ]);
+    }
+
+    protected function getPrice()
+    {
+        return $this->formattedPrice(
+            $this->pivot->quantity * $this->price
+        );
     }
 }

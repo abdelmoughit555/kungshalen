@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             "title" => $this->title,
             "slug" => $this->slug,
             "description" => $this->description,
-            "price" => $this->price,
+            "price" => $this->formattedPrice($this->price),
             "image" => $this->image,
             "country" => CountryResource::collection($this->whenLoaded('country')),
             "category" => CountryResource::collection($this->whenLoaded('category'))

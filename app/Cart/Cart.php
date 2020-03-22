@@ -24,7 +24,6 @@ class Cart {
                 $product->id =>
                 [
                     'quantity' => $quantity + $this->getCurrentQuantity($product->id),
-                    'price' => $product->price,
                 ]
             ]);
     }

@@ -24,7 +24,7 @@ class Product extends Model
      * @return integer
      */
 
-    public function getPriceAttribute($value)
+    public function formattedPrice($value)
     {
         return money_format('%i', $value / 100);
     }
